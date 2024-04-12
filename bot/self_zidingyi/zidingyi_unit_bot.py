@@ -1,4 +1,5 @@
 # encoding:utf-8
+import random
 import re
 import requests
 import json
@@ -24,7 +25,7 @@ def get_shipinghao(video_id,pass_ticket):
     payload = {}
     headers = {
         'Host': 'mp.weixin.qq.com',
-        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 NetType/WIFI MicroMessenger/6.8.0(0x16080000) MacWechat/3.8.5(0x13080510) XWEB/1100 Flue',
+        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/5{}.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 NetType/WIFI MicroMessenger/6.8.0(0x16080000) MacWechat/3.8.5(0x13080510) XWEB/1100 Flue'.format(random.choice(range(10,90))),
         'x-requested-with': 'XMLHttpRequest',
         'accept': '*/*',
         'sec-fetch-site': 'same-origin',
@@ -41,8 +42,12 @@ def get_shipinghao(video_id,pass_ticket):
     description = inf.get("data", {}).get("description", "").replace("'","[").replace('"',"[").replace('“',"[").replace('”',"]")
     publish_time = datetime.fromtimestamp(inf.get("data", {}).get("publish_time", "")).strftime("%Y-%m-%d %H:%M:%S")
     source = inf.get("data", {}).get("source", "")
-    play_url = inf.get("data", {}).get("resolution_list", [])[0]["url"]
-    duration = get_duration_str(inf.get("data", {}).get("resolution_list", [])[0]["duration"]/1000)
+    if inf.get("data", {}).get("resolution_list", []):
+        play_url = inf.get("data", {}).get("resolution_list", [])[0]["url"]
+        duration = get_duration_str(inf.get("data", {}).get("resolution_list", [])[0]["duration"]/1000)
+    else:
+        play_url = "该视频无法获取播放地址"
+        duration = ""
     wx_url = "https://mp.weixin.qq.com/recweb/clientjump?feed_id=finder_{video_id}&tag=getvideolist&channelid=699001".format(video_id=video_id)
     return description,publish_time,source,play_url,duration,wx_url
 
