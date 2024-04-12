@@ -1,4 +1,4 @@
-openai>=1.17.0
+# openai>=1.17.0
 baidu-aip>=4.16.13
 gTTS>=2.5.1
 HTMLParser>=63.4.2
