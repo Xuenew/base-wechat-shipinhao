@@ -26,8 +26,10 @@ pip3 install -r requirements.txt
 ```bash
 python3 app.py
 ```
-
-
+群晖docker安装，直接拉取映像，运行，运行后打开终端机，即可查看wechat登陆二维码
+```bash
+docker pull autunn/wechat_video_channel:latest
+```
 ## 感谢以下库和博主提供的思路，拥抱开源：
 https://github.com/zhayujie/chatgpt-on-wechat
 
