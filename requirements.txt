@@ -1,9 +1,9 @@
-# openai>=1.17.0
+openai>=1.17.0
 baidu-aip>=4.16.13
 gTTS>=2.5.1
-HTMLParser>=63.4.2
+html.parser
 pydub>=0.25.1
-PyQRCode>=63.4.2
+PyQRCode>=1.2.1
 pysilk>=0.0.1
 pysilk-mod>=1.6.2
 pyttsx3>=2.90
