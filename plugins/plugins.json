@@ -1,0 +1,32 @@
+{
+    "plugins": {
+        "Godcmd": {
+            "enabled": true,
+            "priority": 999
+        },
+        "Banwords": {
+            "enabled": true,
+            "priority": 100
+        },
+        "sdwebui": {
+            "enabled": true,
+            "priority": 0
+        },
+        "Role": {
+            "enabled": true,
+            "priority": 0
+        },
+        "Dungeon": {
+            "enabled": true,
+            "priority": 0
+        },
+        "BDunit": {
+            "enabled": true,
+            "priority": 0
+        },
+        "Hello": {
+            "enabled": true,
+            "priority": -1
+        }
+    }
+}
