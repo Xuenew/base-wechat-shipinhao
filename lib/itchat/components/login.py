@@ -121,9 +121,9 @@ def get_QRuuid(self):
         return self.uuid
 
 
-def get_QR(self, uuid=None, enableCmdQR=true, picDir=None, qrCallback=None):
+def get_QR(self, uuid=None, enableCmdQR=True, picDir=None, qrCallback=None):
     uuid = uuid or self.uuid
-    picDir = picDir or config.DEFAULT_QR
+    picDir = picDir or '/app/QR/qrcode.png'
     qrStorage = io.BytesIO()
     qrCode = QRCode('https://login.weixin.qq.com/l/' + uuid)
     qrCode.png(qrStorage, scale=10)
@@ -131,7 +131,7 @@ def get_QR(self, uuid=None, enableCmdQR=true, picDir=None, qrCallback=None):
         qrCallback(uuid=uuid, status='0', qrcode=qrStorage.getvalue())
     else:
         with open(picDir, 'wb') as f:
-            f.write(qrStorage.getvalue(/app/QR_code/qrcode.png))
+            f.write(qrStorage.getvalue())
         if enableCmdQR:
             utils.print_cmd_qr(qrCode.text(1), enableCmdQR=enableCmdQR)
             utils.print_cmd_qr('https://login.weixin.qq.com/l/' + uuid)
