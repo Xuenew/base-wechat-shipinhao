@@ -26,7 +26,7 @@ pip3 install -r requirements.txt
 ```bash
 python3 app.py
 ```
-群晖docker安装，直接拉取映像，运行，运行后打开终端机，即可查看wechat登陆二维码
+群晖docker安装，直接拉取映像映射/app/QR目录，例如/volume1/wechat_video_channel:/app/QR,运行后，每次生成的二维码都会在wechat_video_channel文件夹中刷新，打开扫码即可
 ```bash
 docker pull autunn/wechat_video_channel:latest
 ```
