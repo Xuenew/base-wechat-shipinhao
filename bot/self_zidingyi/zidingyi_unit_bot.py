@@ -119,5 +119,5 @@ class ZHIDINGYIBot(Bot):
             return response.json()['access_token']
 
 if __name__ == '__main__':
-    inf = get_shortvideo("无敌")
+    inf = get_shortvideo("无敌ddd")
     print(inf)

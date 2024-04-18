@@ -197,8 +197,12 @@ class WechatChannel(Channel):
             context = self._compose_context(ContextType.ZIDINGYI, content, isgroup=True, msg=msg, receiver=group_id, session_id=session_id)
             vid = "".join(re.findall(r'<objectId><!\[CDATA\[(\d*)\]', msg['Content'])) or "".join(re.findall(r'<objectId>(\d*)</objectId>', msg['Content']))
             # print("vidvidvidvid",vid)
-            if context or vid:
+            match_prefix = check_prefix(content, conf().get('group_chat_prefix'))
+            if vid:
                 thread_pool.submit(self.handle, context).add_done_callback(thread_pool_callback)
+            elif match_prefix:
+                thread_pool.submit(self.handle, context).add_done_callback(thread_pool_callback)
+
         #
         # if any([group_name in group_name_white_list, 'ALL_GROUP' in group_name_white_list, check_contain(group_name, group_name_keyword_white_list)]):
         #     group_chat_in_one_session = conf().get('group_chat_in_one_session', [])
