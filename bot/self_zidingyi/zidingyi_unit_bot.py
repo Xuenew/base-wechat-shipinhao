@@ -6,6 +6,26 @@ import json
 from bot.bot import Bot
 from bridge.reply import Reply, ReplyType
 from datetime import datetime
+from config_xyy import WX_URL  # 微信机器人去请求拿到链接数据
+
+def get_shortvideo():
+
+    result_list = [
+        {
+        "title": "某个剧的标题1",
+        "url": "testulr1",
+        },
+        {
+        "title": "某个剧的标题2",
+        "url": "testulr2",
+        },
+
+    ]
+    string = "点击夸克网盘链接后app打开\n转存观看完整版\n共计找到相似剧目：{} 条".format(len(result_list))
+    for each in result_list:
+        justring = "\n{title}\n{url}\n".format(each["title"], each["url"])
+        string.join(justring)
+    return string
 
 # 转换时长
 def get_duration_str(seconds: float, like: str = "%02d:%02d:%02d"):
@@ -18,6 +38,8 @@ def get_duration_str(seconds: float, like: str = "%02d:%02d:%02d"):
     if not seconds:
         return ""
     return like % (h, m, s)
+
+
 def get_shipinghao(video_id,pass_ticket):
 
     url = "https://mp.weixin.qq.com/recweb/videolistapi?action=getvideoinfo&feed_id=finder_{video_id}&channelid=699001&pass_ticket={pass_ticket}".format(video_id=video_id,pass_ticket=pass_ticket)
@@ -49,7 +71,8 @@ def get_shipinghao(video_id,pass_ticket):
         play_url = "该视频无法获取播放地址"
         duration = ""
     wx_url = "https://mp.weixin.qq.com/recweb/clientjump?feed_id=finder_{video_id}&tag=getvideolist&channelid=699001".format(video_id=video_id)
-    return description,publish_time,source,play_url,duration,wx_url
+    return description, publish_time, source, play_url, duration,wx_url
+
 
 # ZHIDINGYIBot Unit对话接口 (可用, 但能力较弱) # 自己定义的对话
 class ZHIDINGYIBot(Bot):
@@ -64,7 +87,8 @@ class ZHIDINGYIBot(Bot):
                                                    play_url=play_url, duration=duration, wx_url=wx_url)
             reply = Reply(ReplyType.TEXT, string)
         else:
-            reply = Reply(ReplyType.TEXT, "你分享的不是视频号，请从新分享")
+            string = get_shortvideo()
+            reply = Reply(ReplyType.TEXT, string)
         return reply
 
     def get_token(self):

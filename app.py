@@ -12,9 +12,9 @@ def run():
         load_config()
 
         # create channel
-        channel_name=conf().get('channel_type', 'wx')
+        channel_name = conf().get('channel_type', 'wx')
         channel = channel_factory.create_channel(channel_name)
-        if channel_name=='wx':
+        if channel_name =='wx':
             PluginManager().load_plugins()
 
         # startup channel
