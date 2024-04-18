@@ -9,7 +9,7 @@ from datetime import datetime
 from config_xyy import WX_URL  # 微信机器人去请求拿到链接数据
 
 def get_shortvideo(search_key):
-    url = "http://xinju.xyydayup.top/rtb_search/search/an_interesting_short_play/"  # 公网
+    url = "http://{}/rtb_search/search/an_interesting_short_play/".format(WX_URL)  # 公网
     # url = "http://192.168.31.95:5000/rtb_search/search/an_interesting_short_play/"
 
     payload = {'keyword': search_key}

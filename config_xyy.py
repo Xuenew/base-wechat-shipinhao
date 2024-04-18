@@ -1,1 +1,0 @@
-WX_URL = "http"
