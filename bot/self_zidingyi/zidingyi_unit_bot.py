@@ -7,9 +7,10 @@ from bot.bot import Bot
 from bridge.reply import Reply, ReplyType
 from datetime import datetime
 from config_xyy import WX_URL  # 微信机器人去请求拿到链接数据
+from config import available_setting
 
 def get_shortvideo(search_key):
-    url = "{}/rtb_search/search/an_interesting_short_play/".format(WX_URL)  # 公网
+    url = "{}/rtb_search/search/an_interesting_short_play".format(WX_URL)  # 公网
     # url = "http://192.168.31.95:5000/rtb_search/search/an_interesting_short_play/"
 
     payload = {'keyword': search_key}
@@ -17,7 +18,6 @@ def get_shortvideo(search_key):
 
     ]
     headers = {}
-
     response = requests.request("POST", url, headers=headers, data=payload, files=files)
 
     # print(response.text)
@@ -103,7 +103,9 @@ class ZHIDINGYIBot(Bot):
                                                    play_url=play_url, duration=duration, wx_url=wx_url)
             reply = Reply(ReplyType.TEXT, string)
         else:
-            string = get_shortvideo(context)
+            match_prefix = available_setting["group_chat_prefix"][0]
+            search_key = context.kwargs.get("msg",{})["Content"].replace(match_prefix, '', 1).strip()
+            string = get_shortvideo(search_key)
             reply = Reply(ReplyType.TEXT, string)
         return reply
 
@@ -113,9 +115,9 @@ class ZHIDINGYIBot(Bot):
         host = 'https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=' + access_key + '&client_secret=' + secret_key
         response = requests.get(host)
         if response:
-            print(response.json())
+            # print(response.json())
             return response.json()['access_token']
 
 if __name__ == '__main__':
-    inf = get_shortvideo("sadfadf")
+    inf = get_shortvideo("无敌")
     print(inf)
