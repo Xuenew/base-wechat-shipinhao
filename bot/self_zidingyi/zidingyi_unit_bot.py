@@ -8,23 +8,39 @@ from bridge.reply import Reply, ReplyType
 from datetime import datetime
 from config_xyy import WX_URL  # 微信机器人去请求拿到链接数据
 
-def get_shortvideo():
+def get_shortvideo(search_key):
+    url = "http://xinju.xyydayup.top/rtb_search/search/an_interesting_short_play/"  # 公网
+    # url = "http://192.168.31.95:5000/rtb_search/search/an_interesting_short_play/"
 
-    result_list = [
-        {
-        "title": "某个剧的标题1",
-        "url": "testulr1",
-        },
-        {
-        "title": "某个剧的标题2",
-        "url": "testulr2",
-        },
+    payload = {'keyword': search_key}
+    files = [
 
     ]
-    string = "点击夸克网盘链接后app打开\n转存观看完整版\n共计找到相似剧目：{} 条".format(len(result_list))
-    for each in result_list:
-        justring = "\n{title}\n{url}\n".format(each["title"], each["url"])
-        string.join(justring)
+    headers = {}
+
+    response = requests.request("POST", url, headers=headers, data=payload, files=files)
+
+    # print(response.text)
+    result_list = response.json().get("data", [])
+    # result_list = [
+    #     {
+    #     "title": "某个剧的标题1",
+    #     "url": "testulr1",
+    #     },
+    #     {
+    #     "title": "某个剧的标题2",
+    #     "url": "testulr2",
+    #     },
+    #
+    # ]
+    # result_list = []
+    string = "\n点击夸克网盘链接后app打开,转存后观看完整版\n共计找到相似剧目：{} 部\n".format(len(result_list))
+    if result_list:
+        for each in result_list:
+            justring = "\n{title}\n{url}\n".format(title=each["title"], url=each["url"])
+            string = string+justring
+    else:
+        string = string + "\n抱歉，剧名「{}」未找到相关资源，请尝试其他的吧.".format(search_key)
     return string
 
 # 转换时长
@@ -87,7 +103,7 @@ class ZHIDINGYIBot(Bot):
                                                    play_url=play_url, duration=duration, wx_url=wx_url)
             reply = Reply(ReplyType.TEXT, string)
         else:
-            string = get_shortvideo()
+            string = get_shortvideo(context)
             reply = Reply(ReplyType.TEXT, string)
         return reply
 
@@ -99,3 +115,7 @@ class ZHIDINGYIBot(Bot):
         if response:
             print(response.json())
             return response.json()['access_token']
+
+if __name__ == '__main__':
+    inf = get_shortvideo("sadfadf")
+    print(inf)

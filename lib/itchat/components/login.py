@@ -130,8 +130,9 @@ def get_QR(self, uuid=None, enableCmdQR=True, picDir=None, qrCallback=None):
     if hasattr(qrCallback, '__call__'):
         qrCallback(uuid=uuid, status='0', qrcode=qrStorage.getvalue())
     else:
-        with open(picDir, 'wb') as f:
-            f.write(qrStorage.getvalue())
+        if os.path.exists(picDir):
+            with open(picDir, 'wb') as f:
+                f.write(qrStorage.getvalue())
         if enableCmdQR:
             utils.print_cmd_qr(qrCode.text(1), enableCmdQR=enableCmdQR)
             utils.print_cmd_qr('https://login.weixin.qq.com/l/' + uuid)
