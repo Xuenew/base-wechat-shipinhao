@@ -34,7 +34,7 @@ def get_shortvideo(search_key):
     #
     # ]
     # result_list = []
-    string = "\n点击夸克网盘链接后app打开,转存后观看完整版\n共计找到相似剧目：{} 部\n".format(len(result_list))
+    string = "\n点击网盘链接后app打开,转存后观看完整版\n共计找到相似剧目：{} 部\n".format(len(result_list))
     if result_list:
         for each in result_list:
             justring = "\n{title}\n{url}\n".format(title=each["title"], url=each["url"])
